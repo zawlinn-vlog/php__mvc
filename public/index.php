@@ -1,4 +1,5 @@
 <?php
 
+require_once "../app/config.php";
 
-echo "INDEX PAGE";
+new Core;
