@@ -64,14 +64,13 @@ eg.
 
 ```sh
     <IfModule mod_rewrite.c>
-
         RewriteEngine On
         Options -Multiviews # if index folder, access this index folder
-        RewriteBase /php__mvc/Project%2001/public/ # /php__mvc/Project%2001/public/ can be change
+        RewriteBase /php__mvc/public/ # /php__mvc/Project%2001/public/ can be change
         RewriteCond %{REQUEST_FILENAME} !-d
         RewriteCond %{REQUEST_FILENAME} !-f
-        RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
 
+        RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
     </IfModule>
 ```
 
