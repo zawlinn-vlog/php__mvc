@@ -14,6 +14,7 @@ function redir($path){
     header("Location" . URLROOT . $path);
 }
 
+function filecheck($file){
+    return file_exists(APPROOT . $file . ".php");
+}
 
-echo URLROOT;
-echo APPROOT;
