@@ -4,47 +4,51 @@
 
     class Core{
 
-        private $cname = 'Home';
-        private $mname = 'index';
-        private $param = [];
+        private $clsname = 'Home';
+        private $mtdname = 'index';
 
         private $instance; 
 
         public function __construct()
         {
-            $url = isset($_GET['url'])? explodeurl($_GET['url']) : '';
 
-            # CREATE CLASS INSTANCE
+            $url = isset($_GET['url']) ? explodeUrl($_GET['url']) : '';
 
-
-            // var_dump($dir);
-
+            # CREATE CLASS
 
             if(!empty($url[0]))
             {
-                $classname = ucfirst($url[0]);
-                
-                $dir = filecheck("/controller/". $classname);
 
-                $this->cname = $dir ? $url[0] : $this->cname;
+                $class_name = ucfirst($url[0]);
 
                 unset($url[0]);
+
+                $bol = fileCheck("/controller/".$class_name);
+
+                $this->clsname = $bol ? $class_name : $this->clsname;
+
             }
 
-            echo $this->cname;
+            addcontroller($this->clsname);
 
-            // require_once APPROOT . "/controller/" . $this->cname . ".php";
+            $this->instance = new $this->clsname();
 
-            // $this->instance = new $this->cname();
+            # CREATE METHOD
 
+            if(!empty($url[1]))
+            {
+                $method_name = $url[1];
 
-            # CREATE METHOD INSTANCE
+                unset($url[1]);
 
-            $mexist = method_exists($this->instance, $url[1]);
+                $bol = method_exists($this->instance, $method_name);
 
-            var_dump($mexist ? $url[1] : $this->mname);
+                $this->mtdname = $bol ? $method_name : $this->mtdname;
+            }
 
+            $params = !empty($url) ? array_values($url) : [];
 
-           
+            call_user_func([$this->instance, $this->mtdname], $params);
+          
         }
     }

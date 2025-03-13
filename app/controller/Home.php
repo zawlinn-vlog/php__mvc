@@ -1,9 +1,14 @@
 <?php
 
 
-class Home{
+class Home extends Controller{
     public function __construct()
     {
-        echo "Hello";
+        $this->modals('Usermodal');
+    }
+
+    public function index(){
+        
+        $this->views('home/index');
     }
 }
