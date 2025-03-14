@@ -6,18 +6,17 @@ class Admin extends Controller
     {
         $this->modals('Adminmodal');
 
-        # KICK BACK 
+        ######### KICK BACK #########
 
-        if($_SESSION['currentuser'] -> usertype == 1)
-       {
+        if($_SESSION['currentuser'] && $_SESSION['currentuser'] -> usertype == 0)
+            {
 
             $this->views('admin/index');
 
-       }
-       else{
+            }else{
 
             redir('');
-       }
+        }
     }
 
     public function index(){

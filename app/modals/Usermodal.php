@@ -8,6 +8,7 @@ class Usermodal
         // echo __CLASS__; 
 
         $this->db = new Database();
+
     }
 
 
@@ -31,5 +32,17 @@ class Usermodal
 
         return $this->db->fetchone();
  
+    }
+
+
+    public function insertData($fname, $uname, $pass, $email){
+        $this->db->query("INSERT INTO members (fullname, username, password, email) VALUE (:fname, :uname, :pass, :email)");
+
+        $this->db->bind(':fname', $fname);
+        $this->db->bind(':uname', $uname);
+        $this->db->bind(':pass', $pass);
+        $this->db->bind(':email', $email);
+
+        return $this->db->executedb();
     }
 }

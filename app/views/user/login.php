@@ -10,6 +10,8 @@ require_once APPROOT . "/views/inc/navbar.php";
 <div class="container pt-3 pb-5">
     <div class="row justify-content-lg-end justify-content-center">
         <div class="col-11 col-md-7 col-lg-5 p-5 border border-1 rounded">
+
+        <?php  getFlash('register_success')  ?>
             
             <form action="" method="POST" class="d-grid gap-4">
 

@@ -76,7 +76,7 @@
                             <img src="https://placehold.co/30" class="rounded-circle" alt="" style="width: 30px; height:30px" >
                         </a>
                         <ul class="dropdown-menu"  style="left :-250%;">
-                            <?php if($curuser->usertype == 1): ?>
+                            <?php if($curuser->usertype == 0): ?>
                             <li>
                                 <a href="admin/createAcc" class="dropdown-item py-2">Create Account</a>
                             </li>

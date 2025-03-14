@@ -7,14 +7,31 @@ class User extends Controller
     public function __construct()
     {
       $this->umodal = $this->modals('Usermodal');
+     
     }
+
+    public function kickbck()
+    {
+        ########## KICK BACK #########
+
+        if($_SESSION['currentuser'])
+        {
+            $this->views('user/index');
+ 
+        }else{
+ 
+            redir('');
+        }
+    }
+
 
     public function index()
     {
-        $this->views('user/404');
+
+       $this->kickbck();
     }
 
-    # LOG IN SESSION
+    ######### LOG IN SESSION #########
 
     public function login(){
 
@@ -38,7 +55,7 @@ class User extends Controller
            $existingData = $this->umodal->getDatabyEmail($data['email']);
 
     
-           # CHECK EMAIL EXIST OR NOT
+           ######### CHECK EMAIL EXIST OR NOT #########
 
             if(!empty($data['email']))
             {
@@ -56,7 +73,7 @@ class User extends Controller
             }
 
 
-            # CHECK PASSWORD IS EMPTY OR NOT
+            ######### CHECK PASSWORD IS EMPTY OR NOT #########
 
 
             if(empty($data['password']))
@@ -65,6 +82,7 @@ class User extends Controller
             }
 
 
+            ######### FINAL SUBMIT DATA #########
 
             if(empty($data['emailErr']) && empty($data['passErr']))
             {
@@ -99,14 +117,14 @@ class User extends Controller
        }
 
        else{
-         $this->views('user/login', $data);
+         isset($_SESSION['currentuser']) ? redir('') : $this->views('user/login');
        }
 
         
 
     }
 
-    # REGISTER SESSION
+    ######### REGISTER SESSION #########
 
     public function register()
     {
@@ -115,13 +133,14 @@ class User extends Controller
             'email' =>'',
             'password' => '',
             'cpassword' => '',
-            'emailExist' => false,
+            'emailExist' => true,
             'fnameErr' =>'',
             'emailErr' => '',
             'passErr' => '',
             'cpassErr' => ''
         ];
 
+        $password = '';
 
         $uname = 'UID_' . mt_rand(100000, 1000000);
 
@@ -133,10 +152,15 @@ class User extends Controller
             $data['password'] = htmlentities($_POST['password']);
             $data['cpassword'] = htmlentities($_POST['cpassword']);
 
+        
+            ######### CHECK FULLNAME SESSION #########
+
             if(empty($data['fname']))
             {
                 $data['fnameErr'] = 'Your sholud Fill this field';
             }
+
+            ######### CHECK EMAIL SESSION #########
 
             if(empty($data['email']))
             {
@@ -152,23 +176,46 @@ class User extends Controller
                     $data['emailErr'] = 'Your input mail is already exist!';
                     
                 }else{
-
+                    $data['emailExist'] = false;
                 }
             }
+
+
+            ######### CHECK PASSWORD SESSION #########
 
             if(empty($data['password']))
             {
                 $data['passErr'] = 'Your sholud Fill this field';
             }
+            else{
+                $password = password_hash($data['password'], PASSWORD_BCRYPT);
+            }
+
+            ######### CHECK CONFIRMED SESSION #########
 
             if(empty($data['cpassword']))
             {
                 $data['cpassErr'] = 'Your sholud Fill this field';
+            }else
+            {
+                if($data['password'] != $data['cpassword'])
+                {
+                    $data['cpassErr'] = 'Your confirmed password does not match!';
+                }
             }
 
-            if(empty($data['fnameErr']) && empty($data['emailErr']) && empty($data['passErr']))
+            ######### FINAL SUBMIT DATA #########
+
+            if(empty($data['fnameErr']) && empty($data['emailErr']) && empty($data['passErr']) && empty($data['cpassErr']))
             {
-                echo "SUCCESS";
+
+                $res = $this->umodal->insertData($data['fname'], $uname, $password, $data['email']);
+
+                $res ? "SUCCESS" : "FAIL";
+
+                setFlash('register_success', "Registering is successful!");
+
+                redir('user/login');
             }
             else{
                 $this->views('user/register', $data);
@@ -177,7 +224,8 @@ class User extends Controller
 
         }else
         {
-            $this->views('user/register');
+            isset($_SESSION['currentuser']) ? redir('') : $this->views('user/register');
+
         }
     }
 

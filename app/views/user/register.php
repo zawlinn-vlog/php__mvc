@@ -25,7 +25,7 @@ require_once APPROOT . "/views/inc/navbar.php";
 
                 <!-- EMAIL -->
                 <div class="form-floating">
-                    <input type="email" name="email" id="email" class="form-control" placeholder="contact@website.com" value="<?php echo !empty($data['email']) && $data['emailExist'] ? $data['email'] : "" ?>">
+                    <input type="email" name="email" id="email" class="form-control" placeholder="contact@website.com" value="<?php echo !empty($data['email']) && !$data['emailExist'] ? $data['email'] : "" ?>">
                     <label for="email">Email Address</label>
                     <span class="text-danger"><?php echo !empty($data['emailErr']) ? $data['emailErr'] : ''  ?></span>
                     
