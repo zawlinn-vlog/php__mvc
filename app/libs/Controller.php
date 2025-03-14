@@ -2,13 +2,14 @@
 
 class Controller{
 
-    public function views($dir)
+    public function views($dir, $data = [])
     {
        $path =  fileCheck("/views/".$dir);
-
+       
        if($path)
        {
-            addFile("/views/" . $dir);
+         
+          require_once APPROOT . "/views/". $dir . ".php" ;
        }
     }
 
@@ -19,9 +20,9 @@ class Controller{
 
        if($path)
        {
-            addFile("/modals/" . $dir);
+          require_once ( APPROOT . "/modals/" . $dir . ".php");
 
-            return new $dir();
+          return new $dir();
        }
     }
 }

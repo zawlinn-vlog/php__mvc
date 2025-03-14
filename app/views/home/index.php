@@ -6,7 +6,7 @@ require_once APPROOT . "/views/inc/navbar.php";
 
 ?>
 
-
+<?php getFlash('login_success')  ?>
 
 
 

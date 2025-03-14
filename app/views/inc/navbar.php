@@ -89,7 +89,7 @@
                 <?php endif; ?>
                 <!-- Login -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link active">Login</a>
+                    <a href="<?php echo URLROOT .  'user/login' ?>" class="nav-link active">Login</a>
                 </li>
             </ul>
         </div>
