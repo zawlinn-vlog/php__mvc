@@ -71,6 +71,8 @@ class User extends Controller
 
                     setFlash('login_success', "Login is successfully!");
 
+                    $_SESSION['currentuser'] = $isexist;
+
                     $data['email'] = '';
 
                     redir('');
@@ -100,6 +102,15 @@ class User extends Controller
     public function register()
     {
         $this->views('user/register');
+    }
+
+
+    public function logout()
+    {
+        // $this->views('user/logout');
+
+        session_destroy();
+        redir('user/login');
     }
 
 

@@ -42,7 +42,7 @@
                     </div>
                 </li>
 
-                <?php if(false): ?>
+                <?php if(isset($_SESSION['currentuser'])): ?>
 
                 <!-- PAID COURSE -->
 
@@ -81,16 +81,18 @@
                                 <a href="#" class="dropdown-item py-2">Cart</a>
                             </li>
                             <li>
-                                <a href="#" class="dropdown-item py-2">Logout</a>
+                                <a href="<?php echo URLROOT . 'user/logout'   ?>" class="dropdown-item py-2">Logout</a>
                             </li>
                         </ul>
                     </div>
                 </li>
-                <?php endif; ?>
+                <?php else: ?>
                 <!-- Login -->
                 <li class="nav-item">
                     <a href="<?php echo URLROOT .  'user/login' ?>" class="nav-link active">Login</a>
                 </li>
+
+                <?php  endif;  ?>
             </ul>
         </div>
     </div>
