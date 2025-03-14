@@ -14,6 +14,8 @@ class User extends Controller
         $this->views('user/404');
     }
 
+    # LOG IN SESSION
+
     public function login(){
 
         $data = [
@@ -33,7 +35,7 @@ class User extends Controller
 
            $data['password'] =  htmlspecialchars($_POST['password'], ENT_QUOTES);
 
-           $isexist = $this->umodal->getDatabyEmail($data['email']);
+           $existingData = $this->umodal->getDatabyEmail($data['email']);
 
     
            # CHECK EMAIL EXIST OR NOT
@@ -41,7 +43,7 @@ class User extends Controller
             if(!empty($data['email']))
             {
                 
-                if(!$isexist)
+                if(!$existingData)
                 {
                     $data['emailErr'] = 'Your email does not exist!';
 
@@ -66,16 +68,22 @@ class User extends Controller
 
             if(empty($data['emailErr']) && empty($data['passErr']))
             {
-                if(password_verify($data['password'], $isexist->password))
+                if(password_verify($data['password'], $existingData->password))
                 {  
 
                     setFlash('login_success', "Login is successfully!");
 
-                    $_SESSION['currentuser'] = $isexist;
+                    $_SESSION['currentuser'] = $existingData;
 
                     $data['email'] = '';
 
-                    redir('');
+                    if($existingData -> usertype == 1)
+                    {
+                        redir('admin');
+
+                    }else{
+                        redir('');
+                    }
                     
                 }else{
                     $data['passErr'] = "Your password is wrong!";
@@ -98,17 +106,84 @@ class User extends Controller
 
     }
 
+    # REGISTER SESSION
 
     public function register()
     {
-        $this->views('user/register');
+        $data = [
+            'fname' =>'',
+            'email' =>'',
+            'password' => '',
+            'cpassword' => '',
+            'emailExist' => false,
+            'fnameErr' =>'',
+            'emailErr' => '',
+            'passErr' => '',
+            'cpassErr' => ''
+        ];
+
+
+        $uname = 'UID_' . mt_rand(100000, 1000000);
+
+        if($_SERVER["REQUEST_METHOD"] == 'POST')
+        {
+
+            $data['fname'] = htmlentities($_POST['fname']);
+            $data['email'] = htmlentities($_POST['email']);
+            $data['password'] = htmlentities($_POST['password']);
+            $data['cpassword'] = htmlentities($_POST['cpassword']);
+
+            if(empty($data['fname']))
+            {
+                $data['fnameErr'] = 'Your sholud Fill this field';
+            }
+
+            if(empty($data['email']))
+            {
+                $data['emailErr'] = 'Your sholud Fill this field';
+
+                
+            }else{
+
+                $existingData =  $this->umodal->getDatabyEmail($data['email']);
+
+                if($existingData){
+
+                    $data['emailErr'] = 'Your input mail is already exist!';
+                    
+                }else{
+
+                }
+            }
+
+            if(empty($data['password']))
+            {
+                $data['passErr'] = 'Your sholud Fill this field';
+            }
+
+            if(empty($data['cpassword']))
+            {
+                $data['cpassErr'] = 'Your sholud Fill this field';
+            }
+
+            if(empty($data['fnameErr']) && empty($data['emailErr']) && empty($data['passErr']))
+            {
+                echo "SUCCESS";
+            }
+            else{
+                $this->views('user/register', $data);
+            }
+
+
+        }else
+        {
+            $this->views('user/register');
+        }
     }
 
 
     public function logout()
     {
-        // $this->views('user/logout');
-
         session_destroy();
         redir('user/login');
     }

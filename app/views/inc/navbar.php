@@ -1,5 +1,10 @@
 <!-- NAVBAR SECTION -->
 
+
+<?php
+    $curuser = isset($_SESSION['currentuser'])? $_SESSION['currentuser'] : [];
+?>
+
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a href="#" class="navbar-brand">
@@ -42,7 +47,7 @@
                     </div>
                 </li>
 
-                <?php if(isset($_SESSION['currentuser'])): ?>
+                <?php if($curuser): ?>
 
                 <!-- PAID COURSE -->
 
@@ -71,6 +76,12 @@
                             <img src="https://placehold.co/30" class="rounded-circle" alt="" style="width: 30px; height:30px" >
                         </a>
                         <ul class="dropdown-menu"  style="left :-250%;">
+                            <?php if($curuser->usertype == 1): ?>
+                            <li>
+                                <a href="admin/createAcc" class="dropdown-item py-2">Create Account</a>
+                            </li>
+                            <?php endif; ?>
+
                             <li>
                                 <a href="#" class="dropdown-item py-2">Profile</a>
                             </li>
