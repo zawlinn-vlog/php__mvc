@@ -3,9 +3,14 @@
 require_once APPROOT . "/views/inc/header.php";
 require_once APPROOT . "/views/inc/navbar.php";
 
+$usertype = '';
+
+if(isset($_SESSION['currentuser']))
+{
+    $usertype = $_SESSION['currentuser'] -> usertype;
+}
 
 ?>
-
 
 <div class="container pt-3 pb-5">
     <div class="row justify-content-lg-end justify-content-center">
@@ -13,7 +18,7 @@ require_once APPROOT . "/views/inc/navbar.php";
             
             <form action="" method="POST" class="d-grid gap-4">
 
-                <h3 class="text-primary text-center mb-4">Register &mdash;</h3>
+                <h3 class="text-primary text-center mb-4"> <?php echo isset($_SESSION['currentuser']) ? "Create Accounts" : "Register";  ?> &mdash;</h3>
 
                 <!-- Fullname -->
                 <div class="form-floating">
@@ -45,6 +50,22 @@ require_once APPROOT . "/views/inc/navbar.php";
                     <span class="text-danger"><?php echo !empty($data['cpassErr']) ? $data['cpassErr'] : ''  ?></span>
                 </div>
 
+
+                <?php if($usertype == 0):  ?>
+
+                <!-- CHOOSE USERTYPE -->
+
+                <div class="form-group">
+                    <!-- <label for="utype" class="form-label">Role of User </label> -->
+                    <select name="usertype" id="utype" class="form-select">
+                        <option value="">Choose User Role</option>
+                        <option value="1" selected>Member</option>
+                        <option value="0">Administrator</option>
+                    </select>
+                </div>
+
+                <?php endif; ?>
+
                 <!-- REMEMBER PASSWORD -->
                 <div class="form-check">
                     <input type="checkbox" name="remeber_password" id="remember_password" class="form-check-input" checked>
@@ -54,12 +75,18 @@ require_once APPROOT . "/views/inc/navbar.php";
                 <!-- SUBMIT BUTTON -->
 
                 <div class="d-grid mt-3">
-                    <button type="submit" class="btn btn-primary"> Register </button>
+                    <button type="submit" class="btn btn-primary"> <?php echo isset($_SESSION['currentuser']) ? "Create Account" : 'Register';   ?> </button>
                 </div>
 
             </form>
 
-            <p class="text-center text-muted mt-4">If your are already a member <a href="<?php echo URLROOT . 'user/login'   ?>">Login Here</a></p>
+            <?php  if($usertype == 0):   ?>
+                <p class="text-center text-muted mt-4">If your are already a member <a href="<?php echo URLROOT . 'admin/index'   ?>">All Users</a></p>
+
+            <?php else : ?>
+                <p class="text-center text-muted mt-4">If your are already a member <a href="<?php echo URLROOT . 'user/login'   ?>">Login Here</a></p>
+            <?php endif; ?>
+            
         </div>
     </div>
 </div>

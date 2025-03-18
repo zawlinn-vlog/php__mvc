@@ -20,7 +20,7 @@ class Controller{
 
        if($path)
        {
-          require_once ( APPROOT . "/modals/" . $dir . ".php");
+          require_once (APPROOT . "/modals/" . $dir . ".php");
 
           return new $dir();
        }

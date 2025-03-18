@@ -2,10 +2,7 @@
 
 session_start();
 
-function flash($name='', $msg='')
-{
-    
-}
+date_default_timezone_set('Asia/Bangkok');
 
 
 function printArr($ary){
@@ -21,6 +18,10 @@ function explodeUrl($url){
     return explode('/', rtrim($url, '/'));
 }
 
+function getExt($file){
+   return explode('.' , $file)[1];
+}
+
 
 function fileCheck($file){
     return file_exists(APPROOT . $file . ".php");
@@ -33,7 +34,7 @@ function addcontroller($filename){
 
 
 function redir($path){
-    echo URLROOT . $path;
+    // echo URLROOT . $path;
     header("Location:" . URLROOT . $path);
 }
 

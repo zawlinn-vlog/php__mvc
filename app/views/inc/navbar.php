@@ -76,21 +76,31 @@
                             <img src="https://placehold.co/30" class="rounded-circle" alt="" style="width: 30px; height:30px" >
                         </a>
                         <ul class="dropdown-menu"  style="left :-250%;">
+
+                            <li>
+                                <a href="<?php echo URLROOT . 'admin/profile'?>" class="dropdown-item py-2">Profile</a>
+                            </li>
+
+
                             <?php if($curuser->usertype == 0): ?>
                             <li>
-                                <a href="admin/createAcc" class="dropdown-item py-2">Create Account</a>
+                                <a href="<?php echo URLROOT . 'user/register'?>" class="dropdown-item py-2">Create Accounts</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo URLROOT . 'admin/createposts'?>" class="dropdown-item py-2">Create Posts</a>
                             </li>
                             <?php endif; ?>
 
+                            <?php if($curuser->usertype == 1): ?>
                             <li>
-                                <a href="#" class="dropdown-item py-2">Profile</a>
+                                <a href="<?php echo URLROOT . 'admin/mycourses'?>" class="dropdown-item py-2">My Courses</a>
                             </li>
-                            <li>
-                                <a href="#" class="dropdown-item py-2">My Courses</a>
-                            </li>
+
                             <li>
                                 <a href="#" class="dropdown-item py-2">Cart</a>
                             </li>
+                            <?php endif; ?>
+                            
                             <li>
                                 <a href="<?php echo URLROOT . 'user/logout'   ?>" class="dropdown-item py-2">Logout</a>
                             </li>

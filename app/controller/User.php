@@ -10,25 +10,11 @@ class User extends Controller
      
     }
 
-    public function kickbck()
-    {
-        ########## KICK BACK #########
-
-        if($_SESSION['currentuser'])
-        {
-            $this->views('user/index');
- 
-        }else{
- 
-            redir('');
-        }
-    }
-
 
     public function index()
     {
 
-       $this->kickbck();
+        $this->views('user/index');
     }
 
     ######### LOG IN SESSION #########
@@ -117,7 +103,7 @@ class User extends Controller
        }
 
        else{
-         isset($_SESSION['currentuser']) ? redir('') : $this->views('user/login');
+        isset($_SESSION['currentuser']) ? redir('') : $this->views('user/login');
        }
 
         
@@ -133,6 +119,7 @@ class User extends Controller
             'email' =>'',
             'password' => '',
             'cpassword' => '',
+            'usertype' => 1,
             'emailExist' => true,
             'fnameErr' =>'',
             'emailErr' => '',
@@ -151,6 +138,9 @@ class User extends Controller
             $data['email'] = htmlentities($_POST['email']);
             $data['password'] = htmlentities($_POST['password']);
             $data['cpassword'] = htmlentities($_POST['cpassword']);
+            $data['usertype'] = isset($_POST['usertype'])? $_POST['usertype'] : $data['usertype'];
+
+            echo $data['usertype'];
 
         
             ######### CHECK FULLNAME SESSION #########
@@ -209,14 +199,21 @@ class User extends Controller
             if(empty($data['fnameErr']) && empty($data['emailErr']) && empty($data['passErr']) && empty($data['cpassErr']))
             {
 
-                $res = $this->umodal->insertData($data['fname'], $uname, $password, $data['email']);
+                $res = $this->umodal->insertData($data['fname'], $uname, $password, $data['email'], $data['usertype']);
 
                 $res ? "SUCCESS" : "FAIL";
 
+               if(isset($_SESSION['currentuser'])){
+                    setFlash('create_success', "Creating Account is successful!");
+
+                    redir('admin/index');
+               }else{
                 setFlash('register_success', "Registering is successful!");
 
                 redir('user/login');
+               }
             }
+
             else{
                 $this->views('user/register', $data);
             }
@@ -224,7 +221,13 @@ class User extends Controller
 
         }else
         {
-            isset($_SESSION['currentuser']) ? redir('') : $this->views('user/register');
+            if(isset($_SESSION['currentuser'])){
+                $_SESSION['currentuser'] -> usertype == 1 ? redir('') : $this->views('user/register');
+
+
+            }else{
+                $this->views('user/register');
+            }
 
         }
     }

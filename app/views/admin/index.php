@@ -15,6 +15,7 @@ require_once APPROOT . "/views/inc/navbar.php";
 
 
 <h3 class="text-primary">Admin Panel</h3>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime aliquam inventore excepturi ipsum debitis provident illum eius nisi perferendis asperiores nemo impedit quaerat, voluptatibus consequuntur dolores? Similique sequi consequatur expedita?</p>
 
 
 

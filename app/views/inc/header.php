@@ -7,6 +7,9 @@
 
         <!-- BOOTSTRAP -->
         <link rel="stylesheet" href="<?php echo URLROOT . 'node_modules/bootstrap/dist/css/bootstrap.min.css' ?>">
+
+        <!-- FONTAWESOME -->
+        <link rel="stylesheet" href="<?php echo URLROOT . 'assets/icon/fontawesomepro/css/all.css'?>">
     </head>
     <body>
     
