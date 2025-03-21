@@ -151,5 +151,11 @@ class Admin extends Controller
 
     }
 
+    public function delete($param){
+        $this->umodal->delpost($param[0]);
+
+       redir('admin/allposts');
+    }
+
   
 }

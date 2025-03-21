@@ -71,4 +71,12 @@ class Usermodal
     return $this->db->fetchall();
 
    }
+
+   public function delpost($id){
+        $this->db->query("DELETE FROM posts WHERE id=:id");
+
+        $this->db->bind(":id", $id);
+
+        $this->db->executedb();
+   }
 }

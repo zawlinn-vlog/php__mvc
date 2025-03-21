@@ -30,6 +30,7 @@ require_once APPROOT . "/views/inc/navbar.php";
                         <a href="<?php echo URLROOT . "admin/delete/". $val->id ?>" class="btn btn-danger ">Delete</a>
                     </div>
                 </div>
+                
             </div>
         </div>
 
